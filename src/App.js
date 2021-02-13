@@ -1,24 +1,22 @@
 import React, { Component } from 'react';
-import { Link, Route, Switch, BrowserRouter as Router, } from 'react-router-dom';
-import Home from './Home';
-import Secret from './Secret';
+import Login from './Login';
 import './App.css';
 
 export default class App extends Component {
+  constructor() {
+    super();
+    //Set default message
+    this.state = {
+      user: null,
+    }
+  }
   render() {
     return (
-      <Router>
-        <div>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/secret">Secret</Link></li>
-          </ul>
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/secret" component={Secret} />
-          </Switch>
-        </div>
-      </Router>
-    );
+      <div>
+        <h1>Log in</h1>
+        <pre>{ this.state.user }</pre>
+        <Login />
+      </div>
+    )
   }
 }
