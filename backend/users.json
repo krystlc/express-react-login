@@ -1,9 +1,9 @@
-{
-    "1": {
+[
+    {
         "id": 1,
         "username": "alex.valle@gmail.com",
-        "password_hashed": "thewell",
+        "password_hashed": "$2b$10$BQ/Oba4daidjaui1VVdp.OIAkSZseIV6.xuz/BKhmsdTLj9D/XwrO",
         "login_attempts": 0,
         "is_locked": false
     }
-}
+]
