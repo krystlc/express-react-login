@@ -7,8 +7,7 @@ export default class Login extends Component {
       busy: false,
       username: '',
       password: '',
-      attempts: 0,
-      locked: false,
+      errMessage: null,
     };
   }
 
@@ -30,11 +29,21 @@ export default class Login extends Component {
       body: JSON.stringify({
         username: this.state.username,
         password: this.state.password,
-      })
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
       .then(res => res.json())
       .then(user => {
-        if (user) {
+        if ('error' in user) {
+          that.setState({
+            username: '',
+            password: '',
+            busy: false,
+            errMessage: user.error,
+          })
+        } else {
           that.props.handleLogin({
             user
           })
@@ -43,9 +52,7 @@ export default class Login extends Component {
       .catch(err => {
         console.log(err)
         that.setState({
-          username: '',
-          password: '',
-          busy: false,
+          errMessage: 'An unexpected errror occurred',
         })
       })
   }
@@ -53,40 +60,35 @@ export default class Login extends Component {
   render() {
     const inputClasses = 'border text-gray-800 appearance-none block w-full rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent mb-3'
     const buttonClasses = 'w-full py-3 cursor-pointer bg-blue-600 text-white font-semibold px-4 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-blue-200'
-    let message
-    if (this.state.locked) {
-      message = <p className="text-red-400 mt-5">You have been locked out for too many failed login attempts.</p>
-    }
-    if (this.state.locked && this.state.attempts > 0) {
-      message = <p className="text-red-400 mt-5">Email or password are not valid.<br /> Login attempt: {this.state.attempts}.</p>
+    let errMessage
+    if (this.state.errMessage) {
+      errMessage = <p className="text-red-400 mb-5">{this.state.errMessage}</p>
     }
     return (
       <div>
         <h1 className="text-3xl mb-10 text-center">Log in</h1>
-        {this.state.locked ? null : (
-          <form onSubmit={this.onSubmit} className={this.state.busy ? 'animate-pulse' : null}>
-            <input
-              type="email"
-              name="username"
-              className={inputClasses}
-              placeholder="Enter email"
-              value={this.state.username}
-              onChange={this.handleInputChange}
-              required
-            />
-            <input
-              type="password"
-              name="password"
-              className={inputClasses}
-              placeholder="Enter password"
-              value={this.state.password}
-              onChange={this.handleInputChange}
-              required
-            />
-            <input type="submit" value="Submit" className={buttonClasses} disabled={this.state.busy} />
-          </form>
-        )}
-        {message}
+        {errMessage}
+        <form onSubmit={this.onSubmit} className={this.state.busy ? 'animate-pulse' : null}>
+          <input
+            type="email"
+            name="username"
+            className={inputClasses}
+            placeholder="Enter email"
+            value={this.state.username}
+            onChange={this.handleInputChange}
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            className={inputClasses}
+            placeholder="Enter password"
+            value={this.state.password}
+            onChange={this.handleInputChange}
+            required
+          />
+          <input type="submit" value="Submit" className={buttonClasses} disabled={this.state.busy} />
+        </form>
       </div>
     );
   }
