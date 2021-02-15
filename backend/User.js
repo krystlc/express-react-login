@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt')
 
 const findUser = (userReq) => {
   return new Promise((resolve, reject) => {
-    console.log('what?', userReq.username)
     const foundUser = database.find(({ username }) => username === userReq.username)
     if (foundUser) {
       if (foundUser.is_locked) {
