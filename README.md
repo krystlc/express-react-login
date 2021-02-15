@@ -22,7 +22,7 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 ### `npm run serve`
 
 Builds the app for production to the `build` folder.\
-Open [http://localhost:3000](http://localhost:8080) to view it in the browser.
+Open [http://localhost:8080](http://localhost:8080) to view it in the browser.
 
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
