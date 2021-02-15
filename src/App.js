@@ -33,7 +33,6 @@ export default class App extends Component {
             ? (<Profile data={this.state.user} handleLogout={this.handleLogout} />)
             : (<Login handleLogin={this.handleLogin} />)}
         </div>
-        <pre>{JSON.stringify(this.state.user, null, 2)}</pre>
       </div>
     )
   }
